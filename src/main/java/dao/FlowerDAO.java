@@ -14,9 +14,10 @@ import java.util.logging.Logger;
 
 public class FlowerDAO implements AbstractDAO<Flower> {
     private static final Logger logger = Logger.getLogger(FlowerDAO.class.getName());
-    private String jdbcURL = "jdbc:mysql://localhost:3306/keeper?useSSL=false";
-    private String jdbcUsername = "admin";
-    private String jdbcPassword = "admin";
+//    private String jdbcURL = "jdbc:mysql://localhost:3306/keeper?useSSL=false";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/keeper";
+    private String jdbcUsername = "root";
+    private String jdbcPassword = "root";
 
     private static final String SAVE_FLOWERS_SQL = "INSERT INTO flowers" + "  (variety, alias, height, price) VALUES " +
             " (?, ?, ?, ?);";
@@ -29,9 +30,12 @@ public class FlowerDAO implements AbstractDAO<Flower> {
     protected Connection getConnection() {
         Connection connection = null;
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException e) {
             printSQLException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return connection;
     }
